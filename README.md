@@ -2,6 +2,7 @@
 Adds additional features, logic, and organization while retaining most of the structure from the core Roblox local Animate script for player characters (as of 2026).
 
 
+
 [PASTED FROM ROBLOX]
 
 Retains most of the structure from the core Roblox local Animate script for player characters (as of 2026). Along with that, this model additionally has:
