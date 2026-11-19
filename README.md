@@ -13,4 +13,4 @@ Retains most of the structure from the core Roblox local Animate script for play
 - Additional states for running when Humanoid walkspeed is above StarterPlayer walkspeed, as well as crouching and proning (code logic for the latter two are not included in this model)
 - Additional emote features such as soundtracks
 
-You do not have to credit me as long as my watermark is in the script! Thanks for using my model.
+You do not need to credit me explicitly, as long as my watermark is in the script (though an explicit credit is appreciated). Thanks for using my model.
