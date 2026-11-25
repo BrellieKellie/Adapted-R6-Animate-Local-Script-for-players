@@ -1,6 +1,5 @@
--- humanoidAnimatePlayEmote.lua
 
--- Original Player (local) Animate script by Roblox's development team
+-- Original Player (local) Animate script (humanoidAnimatePlayEmote.lua) by Roblox's development team
 -- Adapted by @LunixHenry2040
 -- August 2026
 
@@ -78,8 +77,6 @@ local Status = {
 	CurrentAnimIsPlayingHandler = nil,
 	CurrentAnimSpeed = 1.0,
 	AnimTable = {},
-	
-	JumpAnimTime = 0,
 }
 
 local Sounds = {
@@ -395,7 +392,6 @@ end
 
 function onJumping()
 	playAnimation("jump", 0.1, Humanoid)
-	Status.JumpAnimTime = Settings.JumpAnimDuration
 	Status.Pose = "Jumping"
 end
 
@@ -412,9 +408,6 @@ function onGettingUp()
 end
 
 function onFreeFall()
-	if (Status.JumpAnimTime <= 0) then
-		playAnimation("fall", Settings.FallTransitionTime, Humanoid)
-	end
 	Status.Pose = "FreeFall"
 end
 
@@ -424,6 +417,11 @@ end
 
 function onSeated()
 	Status.Pose = "Seated"
+	
+	while Status.Pose == "Seated" do
+		task.wait()
+		playAnimation("sit", 0.5, Humanoid)
+	end
 end
 
 function onPlatformStanding()
@@ -454,50 +452,36 @@ Humanoid.Swimming:connect(onSwimming)
 
 
 
-function move(time)
+function move(t)
 	
-	-- Declare numbers
-	local amplitude = 1
-	local frequency = 1
-	local deltaTime = time - Status.lastTick
-	Status.lastTick = time
-
-	local climbFudge = 0
+	------ Time Math Values (CURRENTLY UNUSED)
+	local deltaTime = t - Status.lastTick
+	Status.lastTick = t
 	
-	
-	-- Check state machine
-	if (Status.JumpAnimTime > 0) then
-		Status.JumpAnimTime = Status.JumpAnimTime - deltaTime
-	end
-	
-	if (Status.Pose == "FreeFall" and Status.JumpAnimTime <= 0) then
+	if (Status.Pose == "FreeFall") then
 		playAnimation("fall", Settings.FallTransitionTime, Humanoid)
-		
-	elseif (Status.Pose == "Seated") then
-		playAnimation("sit", 0.5, Humanoid)
-		return
 			
 	elseif (Status.Pose == "Dead" 
 			or Status.Pose == "GettingUp" 
 			or Status.Pose == "FallingDown" 
-			or Status.Pose == "Seated" 
 			or Status.Pose == "PlatformStanding") then
-		
+			
 		stopAllAnimations()
-		amplitude = 0.1
-		frequency = 1
-		
 	end
 	
 end
 
-task.spawn(function()
-	while Character.Parent do
-		local time = task.wait(0.1)
-		move(time)
-	end
-end)
 
+-- Keep track of the time
+function initTime() 
+	while Character and Character.Parent do
+		local t = task.wait()
+		move(t)
+		print(Status.Pose)
+	end
+end
+
+task.spawn(initTime)
 
 
 --------------------------------------------------------------------
