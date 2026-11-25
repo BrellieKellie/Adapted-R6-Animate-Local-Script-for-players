@@ -233,7 +233,7 @@ Data.EmotesTables = {
 ---------------------------------- Other Data
 Data.Settings = {
 	EmoteTransitionTime = 0.5,
-	FallTransitionTime = 0.3,
+	FallTransitionTime = 0.7,
 
 	JumpAnimDuration = 0.3,
 	JumpMaxLimbVelocity = 0.75,
